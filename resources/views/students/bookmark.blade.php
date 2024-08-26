@@ -36,7 +36,10 @@
                                 <span>{{ formatDate($bookMark->course->created_at) }}</span>
                             </div>
                         </div>
-                        <img src="{{ asset('storage/'. $bookMark->course->cover_path) }}" class="thumb" alt="">
+                        <div class="thumb">
+                            <span>{{ $bookMark->course->course_price }} EGP</span>
+                            <img src="{{ asset('storage/' . $bookMark->course->cover_path) }}" alt="">
+                        </div>
                         <h3 class="title">{{ $bookMark->course->title }}</h3>
                         <a href="{{ route('student.playlist', $bookMark->course->id) }}" class="inline-btn">view playlist</a>
                     </div>

@@ -29,15 +29,18 @@
             <p>playlist status <span>*</span></p>
             <select name="status" class="box" required>
                 <option value="" selected disabled>-- select status</option>
-                <option value="1" {{ old('status') == '1' ? 'selected' :'' }}>active</option>
-                <option value="0" {{ old('status') == '0' ? 'selected' :'' }}>deactive</option>
+                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>active</option>
+                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>deactive</option>
             </select>
             <p>playlist title <span>*</span></p>
-            <input type="text" name="title" value="{{ old('title') }}" maxlength="100" required placeholder="enter playlist title"
-                class="box">
+            <input type="text" name="title" value="{{ old('title') }}" maxlength="100" required
+                placeholder="enter playlist title" class="box">
             <p>playlist description <span>*</span></p>
             <textarea name="description" class="box" required placeholder="write description" maxlength="1000" cols="30"
-                rows="10">{{  old('description') }}</textarea>
+                rows="10">{{ old('description') }}</textarea>
+            <p>playlist price <span>*</span></p>
+            <input type="number" name="price" value="{{ old('price') }}" maxlength="100" required
+                placeholder="enter playlist price" class="box">
             <p>playlist thumbnail <span>*</span></p>
             <input type="file" name="avatar" value = "{{ old('avatar') }}" accept="image/*" required class="box">
             <input type="submit" value="create playlist" name="submit" class="btn">

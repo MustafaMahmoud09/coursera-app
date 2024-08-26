@@ -23,7 +23,7 @@ class StudentSolutionController extends Controller
             //get content by id
             $content = Content::findOrFail($id);
 
-            if ($content->content_type_id == '1') {
+            if ($content->content_type_id != '2') {
                 return abort(401);
             } //end if
 
@@ -46,7 +46,7 @@ class StudentSolutionController extends Controller
             //get content by id
             $content = Content::findOrFail($id);
 
-            if ($content->content_type_id == '1') {
+            if ($content->content_type_id != '2') {
                 return abort(401);
             } //end if
 

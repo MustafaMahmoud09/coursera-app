@@ -44,7 +44,10 @@
                                 </span>
                             </div>
                         </div>
-                        <img src="{{ asset('storage/' . $playlist->cover_path) }}" class="thumb" alt="">
+                        <div class="thumb">
+                            <span>{{ $playlist->course_price }} EGP</span>
+                            <img src="{{ asset('storage/' . $playlist->cover_path) }}" alt="">
+                        </div>
                         <h3 class="title">
                             {{ $playlist->title }}
                         </h3>

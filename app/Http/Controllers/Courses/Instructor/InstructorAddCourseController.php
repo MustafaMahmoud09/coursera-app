@@ -48,7 +48,8 @@ class InstructorAddCourseController extends Controller
                     'description' => $request->description,
                     'cover_path' => $path,
                     'status' => $request->status,
-                    'instructor_id' => $authUser->id
+                    'instructor_id' => $authUser->id,
+                    'course_price' => $request->price
                 ]
             );
 

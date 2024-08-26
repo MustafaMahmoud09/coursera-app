@@ -16,7 +16,8 @@ class ContentTypeSeeder extends Seeder
         //array contain on types
         $types = [
             'video',
-            'assignment'
+            'assignment',
+            'Lesson Document'
         ];
 
         //store types in db

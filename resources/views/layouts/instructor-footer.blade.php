@@ -35,6 +35,8 @@
         var assignment_p = document.getElementById('assignment_p');
         var date_p = document.getElementById('date_p');
         var date = document.getElementById('date');
+        var lesson_p = document.getElementById('lesson_p');
+        var lesson = document.getElementById('lesson');
 
         if (selectedValue === '1') {
             video.style.display = 'block';
@@ -43,6 +45,8 @@
             assignment_p.style.display = 'none';
             date.style.display = 'none';
             date_p.style.display = 'none';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
         } else if (selectedValue === '2') {
             video.style.display = 'none';
             video_p.style.display = 'none';
@@ -50,6 +54,17 @@
             assignment_p.style.display = 'block';
             date.style.display = 'block';
             date_p.style.display = 'block';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
+        } else if (selectedValue === '3') {
+            video.style.display = 'none';
+            video_p.style.display = 'none';
+            assignment.style.display = 'none';
+            assignment_p.style.display = 'none';
+            date.style.display = 'none';
+            date_p.style.display = 'none';
+            lesson_p.style.display = 'block';
+            lesson.style.display = 'block';
         } else {
             video.style.display = 'none';
             video_p.style.display = 'none';
@@ -57,6 +72,8 @@
             assignment_p.style.display = 'none';
             date.style.display = 'none';
             date_p.style.display = 'none';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
         }
     });
 
@@ -68,6 +85,8 @@
         var assignment_p = document.getElementById('assignment_p');
         var date_p = document.getElementById('date_p');
         var date = document.getElementById('date');
+        var lesson_p = document.getElementById('lesson_p');
+        var lesson = document.getElementById('lesson');
 
         if (selectedValue === '1') {
             video.style.display = 'block';
@@ -76,6 +95,8 @@
             assignment_p.style.display = 'none';
             date.style.display = 'none';
             date_p.style.display = 'none';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
         } else if (selectedValue === '2') {
             video.style.display = 'none';
             video_p.style.display = 'none';
@@ -83,6 +104,17 @@
             assignment_p.style.display = 'block';
             date.style.display = 'block';
             date_p.style.display = 'block';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
+        } else if (selectedValue === '3') {
+            video.style.display = 'none';
+            video_p.style.display = 'none';
+            assignment.style.display = 'none';
+            assignment_p.style.display = 'none';
+            date.style.display = 'none';
+            date_p.style.display = 'none';
+            lesson_p.style.display = 'block';
+            lesson.style.display = 'block';
         } else {
             video.style.display = 'none';
             video_p.style.display = 'none';
@@ -90,6 +122,8 @@
             assignment_p.style.display = 'none';
             date.style.display = 'none';
             date_p.style.display = 'none';
+            lesson_p.style.display = 'none';
+            lesson.style.display = 'none';
         }
     });
 </script>

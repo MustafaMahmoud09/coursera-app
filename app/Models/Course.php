@@ -15,7 +15,7 @@ class Course extends Model
         'description',
         'cover_path',
         'status',
-        'instructor_id'
+        'instructor_id',
+        'course_price'
     ];
-
 }

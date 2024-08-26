@@ -44,7 +44,7 @@
             @if ($content->content_type_id == '1')
                 <video src="{{ asset('storage/' . $content->video_path) }}" autoplay controls
                     poster="{{ asset('storage/' . $content->cover_path) }}" class="video"></video>
-            @elseif ($content->content_type_id == '2')
+            @elseif ($content->content_type_id == '2' || $content->content_type_id == '3')
                 <div class="image-container">
                     <img src="{{ asset('storage/' . $content->cover_path) }}" class="pdf" alt="cover image">
                     <a href="{{ asset('storage/' . $content->video_path) }}" download

@@ -79,7 +79,14 @@ class InstructorUpdateContentController extends Controller
             $request->validate(
                 [
                     'assignment' => ($content->content_type_id != '2' ? 'required|' : '') . 'mimes:pdf',
-                    'date' => ($content->content_type_id != '2' ? 'required|' : '') . 'date'
+                    'date' => ($content->content_type_id != '2' ? 'required|' : '') . 'date|after:today'
+                ]
+            );
+        } //end elseif
+        else if ($request->type == '3') {
+            $request->validate(
+                [
+                    'lesson' => ($content->content_type_id != '3' ? 'required|' : '') . 'mimes:pdf',
                 ]
             );
         } //end elseif
@@ -106,6 +113,10 @@ class InstructorUpdateContentController extends Controller
             if ($request->type == '2') {
                 $key = "assignment";
             } //end if
+            else if ($request->type == '3') {
+                $key = 'lesson';
+            } //else if
+
             //upload new video if exisy
             if ($request->hasFile($key)) {
                 $videoPath = $this->uploadFile(
@@ -125,7 +136,7 @@ class InstructorUpdateContentController extends Controller
                     'status' => $request->status,
                     'course_id' => $request->playlist,
                     'video_path' => $videoPath,
-                    'dead_line' => $request->type == '2'? $request->date : null
+                    'dead_line' => $request->type == '2' ? $request->date : null
                 ]
             );
 

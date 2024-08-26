@@ -54,7 +54,14 @@ class InstructorAddContentController extends Controller
             $request->validate(
                 [
                     'assignment' => 'required|mimes:pdf',
-                    'date' => ['required', 'date']
+                    'date' => ['required', 'date', 'after:today']
+                ]
+            );
+        } //end elseif
+        else if ($request->type == '3') {
+            $request->validate(
+                [
+                    'lesson' => 'required|mimes:pdf'
                 ]
             );
         } //end elseif
@@ -83,6 +90,9 @@ class InstructorAddContentController extends Controller
             if ($request->type == 2) {
                 $key = 'assignment';
             } //end if
+            else if ($request->type == 3) {
+                $key = 'lesson';
+            } //else if
 
             //store video in server here
             $videoPath = $this->uploadFile(
@@ -101,7 +111,7 @@ class InstructorAddContentController extends Controller
                     'instructor_id' => $authUser->id,
                     'course_id' => $request->playlist,
                     'video_path' => $videoPath,
-                    'dead_line' => $request->date ?: null,
+                    'dead_line' => $request->type == '2' ? $request->date : null,
                     'content_type_id' => $request->type
                 ]
             );

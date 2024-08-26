@@ -75,14 +75,28 @@ class StudentCourseController extends Controller
                 ->count() > 0;
 
             //get course contents
-            $contents =  $course->contents()
+            $videos =  $course->contents()
                 ->where('status', 1)
+                ->where('content_type_id', 1)
+                ->get();
+
+            $assignments = $course->contents()
+                ->where('status', 1)
+                ->where('content_type_id', 2)
+                ->get();
+
+            $lessons = $course->contents()
+                ->where('status', 1)
+                ->where('content_type_id', 3)
                 ->get();
 
             return view('students.playlist')
                 ->with('course', $course)
                 ->with('isUserSaved', $isUserSaved)
-                ->with('contents', $contents);
+                ->with('videos', $videos)
+                ->with('assignments', $assignments)
+                ->with('lessons', $lessons);
+
         } //end try
         catch (Exception $ex) {
             return abort(500);

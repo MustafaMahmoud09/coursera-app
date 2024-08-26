@@ -53,7 +53,7 @@
 
     <section class="contents">
 
-        <h1 class="heading">playlist videos</h1>
+        <h1 class="heading">playlist contents</h1>
 
         <div class="box-container">
 
@@ -84,8 +84,8 @@
                     </div>
                 @endforeach
             @else
-                <p class="empty">no videos added yet! <a href="{{ route('instructor.add.playlist.content.view') }}"
-                        class="btn" style="margin-top: 1.5rem;">add videos</a></p>
+                <p class="empty">no contents added yet! <a href="{{ route('instructor.add.playlist.content.view') }}"
+                        class="btn" style="margin-top: 1.5rem;">add contents</a></p>
             @endif
 
         </div>

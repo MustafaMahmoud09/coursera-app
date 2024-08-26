@@ -19,7 +19,6 @@ class InstructorUpdateCourseController extends Controller
     public function edit($id)
     {
         try {
-
             //get user auth here
             $authUser = Auth::guard(getInstructorGuard())->user();
 
@@ -80,7 +79,8 @@ class InstructorUpdateCourseController extends Controller
                     'description' => $request->description,
                     'cover_path' => $path,
                     'status' => $request->status,
-                    'instructor_id' => $authUser->id
+                    'instructor_id' => $authUser->id,
+                    'course_price' => $request->price
                 ]
             );
 

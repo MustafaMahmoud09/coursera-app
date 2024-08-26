@@ -11,6 +11,79 @@
    --border:.1rem solid rgba(0,0,0,.2);
 }
 
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab-link {
+    background-color: var(--oragen);
+    padding: 1rem;
+    cursor: pointer;
+    border: 1px solid var(--red);
+    border-radius: .5rem;
+    color: var(--white);
+    white-space: nowrap;
+}
+
+.thumb{
+    height: 22rem;
+    margin-bottom: 1rem;
+    position: relative;
+ }
+
+ .thumb{
+    height: 20rem;
+    position: relative;
+    margin: 1.5rem 0;
+ }
+
+.thumb img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.thumb{
+    flex: 1 1 40rem;
+    height: 30rem;
+    position: relative;
+ }
+
+ .thumb{
+   height: 20rem;
+   width: 100%;
+   border-radius: .5rem;
+   object-fit: cover;
+}
+
+.thumb span{
+    background-color: rgba(0,0,0,.3);
+    color: #fff;
+    border-radius: .5rem;
+    position: absolute;
+    top: 1rem; left: 1rem;
+    padding: .5rem 1.5rem;
+    font-size: 2rem;
+ }
+
+ .thumb img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: .5rem;
+ }
+
+ .thumb span{
+    background-color: rgba(0,0,0,.3);
+    color: #fff;
+    border-radius: .5rem;
+    position: absolute;
+    top: 1rem; left: 1rem;
+    padding: .5rem 1.5rem;
+    font-size: 2rem;
+ }
+
 .info a.btn {
     margin-left: auto; /* Pushes the button to the end of the flex container */
     font-size: 1.2rem; /* Small text size for the button */
@@ -218,7 +291,12 @@ section{
    color: var(--red);
 }
 
-.heading{
+.heading-h {
+    font-size: 2.5rem;
+    color: var(--black);
+}
+
+.heading {
    padding-bottom: 1.8rem;
    border-bottom: var(--border);
    font-size: 2.5rem;

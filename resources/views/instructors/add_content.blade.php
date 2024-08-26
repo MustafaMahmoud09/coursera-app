@@ -67,7 +67,10 @@
             <p id="date_p" style="display: none;">assignment deadline <span>*</span></p>
             <input type="date" id='date' name="date" value="{{ old('date') }}" maxlength="100"
                 placeholder="enter assignment deadline" class="box" style="display: none;">
-            <input type="submit" value="upload video" name="submit" class="btn">
+            <p id="lesson_p" style="display: none;">select lesson <span>*</span></p>
+            <input type="file" name="lesson" id='lesson' value="{{ old('lesson') }}"
+                accept="application/pdf" class="box" style="display: none;">
+            <input type="submit" value="upload content" name="submit" class="btn">
         </form>
 
     </section>

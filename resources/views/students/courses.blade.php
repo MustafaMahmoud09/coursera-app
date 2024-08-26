@@ -40,7 +40,11 @@
                                 <span>{{ formatDate($playlist->created_at) }}</span>
                             </div>
                         </div>
-                        <img src="{{ asset('storage/' . $playlist->cover_path) }}" class="thumb" alt="not found">
+                        <div class="thumb">
+                            <span>{{ $playlist->course_price }} EGP</span>
+                            <img src="{{ asset('storage/' . $playlist->cover_path) }}" alt="">
+                        </div>
+                        <!--<img src="{{ asset('storage/' . $playlist->cover_path) }}" class="thumb" alt="not found">-->
                         <h3 class="title">{{ $playlist->title }}</h3>
                         <a href="{{ route('student.playlist', $playlist->id) }}" class="inline-btn">view playlist</a>
                     </div>

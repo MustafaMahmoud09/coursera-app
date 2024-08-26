@@ -44,7 +44,7 @@ class InstructorSolutionController extends Controller
             //get content by id
             $content = Content::findOrFail($id);
 
-            if ($content->instructor_id != $authUser->id) {
+            if ($content->instructor_id != $authUser->id || $content->content_type_id != '2') {
                 return abort(401);
             } //end if
 

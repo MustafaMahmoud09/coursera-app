@@ -61,7 +61,7 @@
             <input type="file" name="avatar" accept="image/*" class="box">
             @if ($content->content_type_id == '1')
                 <video src="{{ asset('storage/' . $content->video_path) }}" controls></video>
-            @elseif ($content->content_type_id == '2')
+            @elseif ($content->content_type_id == '2' || $content->content_type_id == '3')
                 <div class="image-container">
                     <img src="{{ asset('storage/' . $content->cover_path) }}" class="pdf" alt="cover image">
                     <a href="{{ asset('storage/' . $content->video_path) }}" download
@@ -69,14 +69,17 @@
                 </div>
             @endif
             <p id ='video_p' style="display: none;">update video</p>
-            <input type="file" name="video" id='video' accept="video/*"
-                class="box" style="display: none;">
+            <input type="file" name="video" id='video' accept="video/*" class="box" style="display: none;">
             <p id="assignment_p" style="display: none;">update assignment</p>
-            <input type="file" name="assignment" id='assignment'
-                accept="application/pdf" class="box" style="display: none;">
+            <input type="file" name="assignment" id='assignment' accept="application/pdf" class="box"
+                style="display: none;">
             <p id="date_p" style="display: none;">update assignment deadline</p>
-            <input type="date" id='date' name="date" @if($content->content_type_id == '2')value="{{ $content->dead_line }}"@endif maxlength="100"
+            <input type="date" id='date' name="date"
+                @if ($content->content_type_id == '2') value="{{ $content->dead_line }}" @endif maxlength="100"
                 placeholder="enter assignment deadline" class="box" style="display: none;">
+            <p id="lesson_p" style="display: none;">update lesson <span>*</span></p>
+            <input type="file" name="lesson" id='lesson' accept="application/pdf"
+                class="box" style="display: none;">
             <input type="submit" value="update content" name="update" class="btn">
             <div class="flex-btn">
                 <a href="{{ route('instructor.playlist.content.details.view', $content->id) }}" class="option-btn">view

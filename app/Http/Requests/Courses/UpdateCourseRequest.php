@@ -25,6 +25,7 @@ class UpdateCourseRequest extends FormRequest
             'status' => 'required|in:0,1|numeric',
             'title' => 'required|min:6|max:30',
             'description' => 'required|min:1|max:500',
+            'price' => 'required|decimal:0,100000',
             'avatar' => 'image'
         ];
     }
