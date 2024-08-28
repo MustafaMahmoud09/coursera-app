@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Stripe\Checkout\Session;
+use Stripe\Customer;
+use Stripe\Stripe;
+use Illuminate\Support\Facades\Auth;
 
 //function for provide student guard name
 if (! function_exists('getStudentGuard')) {
@@ -137,7 +141,7 @@ if (! function_exists('reactCount')) {
         return $result;
     } //end reactCount
 
-}//end if
+} //end if
 
 
 //function for provide react count for teacher
@@ -154,5 +158,62 @@ if (! function_exists('commentCount')) {
 
         return $result;
     } //end commentCount
+
+} //end if
+
+
+//function for make payment session
+if (! function_exists('makePaymentSession')) {
+
+    function makePaymentSession($course, $contentid)
+    {
+        // إعداد المفتاح السري الخاص بـ Stripe
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // الحصول على المستخدم المفوض
+        $user = Auth::guard(getStudentGaurd())->user();
+
+        // التحقق من وجود معرف العميل في Stripe
+        if (!$user->stripe_account_id) {
+            // إذا لم يكن موجوداً، قم بإنشاء عميل جديد في Stripe
+            $customer = Customer::create([
+                'email' => $user->email,
+                'name' => $user->name,
+            ]);
+            $user->stripe_account_id = $customer->id;
+            $user->save();
+        }
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+        // إنشاء الجلسة مع `metadata`
+        $session = $stripe->checkout->sessions->create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'egp',
+                    'product_data' => [
+                        'name' => $course->title
+                    ],
+                    'unit_amount' => $course->course_price * 100
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'payment_intent_data' => [
+                'metadata' => [
+                    'course_id' => (string) $course->id,
+                    'user_id' => (string) $user->id,
+                    'course_price' => (string) $course->course_price,
+                ],
+            ],
+            'customer' => $user->stripe_account_id,
+            'success_url' => route('student.playlist.content', $contentid),
+            'cancel_url' => route('student.playlist.comments.view'),
+        ]);
+
+        // إعادة توجيه المستخدم إلى رابط الجلسة
+        return redirect($session->url);
+    } //end makePaymentSession
 
 }//end if

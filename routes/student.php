@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseBookMark\{StudentCourseSaveController};
 use App\Http\Controllers\ContentComments\Students\{StudentCommentController};
 use App\Http\Controllers\ContentReacts\{StudentReactController};
 use App\Http\Controllers\ContentSolutions\Students\StudentSolutionController;
+use App\Http\Controllers\CourseBuyings\StudentBuyingCourseController;
 use App\Http\Controllers\CourseContents\Students\StudentContentController;
 use App\Http\Controllers\Courses\Students\{StudentCourseController};
 use App\Http\Controllers\Profiles\Students\{StudentProfileController, StudentUpdateProfileController};
@@ -27,6 +28,8 @@ try {
         Route::post('login/make', 'login')->name('student.login.generate');
     });
 
+    //web hook
+    Route::post('webhook', [StudentBuyingCourseController::class, 'handleWebhook']);
 
     //contacts links
     Route::controller(StudentContactController::class)->group(function () {
@@ -97,7 +100,7 @@ try {
 
             //content solution links
             Route::controller(StudentSolutionController::class)->group(function () {
-                Route::get('solution/add/{id}/view','index')->name('student.solution.add.view');
+                Route::get('solution/add/{id}/view', 'index')->name('student.solution.add.view');
                 Route::post('solution/add/{id}', 'store')->name('student.solution.add');
             });
         } //end fun

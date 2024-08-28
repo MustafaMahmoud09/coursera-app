@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ContentSolutions\Students;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContentSolutions\AddSolutionRequest;
+use App\Models\Buying;
 use App\Models\Content;
 use App\Models\Solution;
 use App\Traits\Controllers\File\DeleteFile;
@@ -20,8 +21,23 @@ class StudentSolutionController extends Controller
     public function index($id)
     {
         try {
+            //get auth user
+            $authUser = Auth::guard(getStudentGaurd())->user();
+
             //get content by id
             $content = Content::findOrFail($id);
+
+            $isBuying = Buying::where('course_id', $content->course_id)
+                ->where('student_id', $authUser->id)
+                ->exists();
+
+            //if not student buying this course
+            if (!$isBuying) {
+                return makePaymentSession(
+                    course: $content->course,
+                    contentid: $content->id
+                );
+            } //end if
 
             if ($content->content_type_id != '2') {
                 return abort(401);
@@ -45,6 +61,18 @@ class StudentSolutionController extends Controller
 
             //get content by id
             $content = Content::findOrFail($id);
+
+            $isBuying = Buying::where('course_id', $content->course_id)
+                ->where('student_id', $authUser->id)
+                ->exists();
+
+            //if not student buying this course
+            if (!$isBuying) {
+                return makePaymentSession(
+                    course: $content->course,
+                    contentid: $content->id
+                );
+            } //end if
 
             if ($content->content_type_id != '2') {
                 return abort(401);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\Students;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,31 +14,39 @@ class StudentLoginController extends Controller
     //function for return login view
     public function index()
     {
-        return view('students.login');
+        try {
+            return view('students.login');
+        } //end try
+        catch (Exception $ex) {
+            return abort(400);
+        } //end catch
     } //end index
 
 
     //function for login for student
     public function login(LoginRequest $request)
     {
+        try {
+            //validate on student info exist in request or no
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
 
-        //validate on student info exist in request or no
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+            //
+            if (Auth::guard(getStudentGaurd())->attempt($credentials)) {
+                //generate session for store student info
+                $request->session()->regenerate();
+                return redirect()->route('home');
+            } //end if
 
-        //
-        if (Auth::guard(getStudentGaurd())->attempt($credentials)) {
-             //generate session for store student info
-            $request->session()->regenerate();
-            return redirect()->route('home');
-        }//end if
-
-        return back()->withErrors([
-            'email' => 'The email or password you entered is incorrect. Please try again.',
-        ]);
-
+            return back()->withErrors([
+                'email' => 'The email or password you entered is incorrect. Please try again.',
+            ]);
+        } //end try
+        catch (Exception $ex) {
+            return abort(400);
+        } //end catch
     } //end login
 
 }//end StudentLoginController

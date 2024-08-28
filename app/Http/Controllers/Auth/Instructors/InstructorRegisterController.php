@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Instructor;
 use App\Models\Profession;
 use App\Traits\Controllers\File\UploadFile;
+use Exception;
 use Illuminate\Http\Request;
 
 class InstructorRegisterController extends Controller
@@ -17,46 +18,55 @@ class InstructorRegisterController extends Controller
     //function for return register view
     public function index()
     {
-        //get professions from gdb
-        $professions = Profession::get(['id', 'profession']);
+        try {
+            //get professions from gdb
+            $professions = Profession::get(['id', 'profession']);
 
-        return view('instructors.register')->with('professions', $professions);
+            return view('instructors.register')->with('professions', $professions);
+        } //end try
+        catch (Exception $ex) {
+            return abort(400);
+        } //end catch
     } //end index
 
 
     //function for create new instructor in global db
     public function store(RegisterRequest $request)
     {
+        try {
+            $request->validate(
+                [
+                    'profession' => 'required|numeric|exists:professions,id',
+                    'email' => 'unique:instructors,email'
+                ]
+            );
 
-        $request->validate(
-            [
-                'profession' => 'required|numeric|exists:professions,id',
-                'email' => 'unique:instructors,email'
-            ]
-        );
+            //upload instructor photo in server here
+            $path = $this->uploadFile(
+                request: $request,
+                key: 'avatar',
+                folder: 'instructor/' . $request->email
+            );
 
-        //upload instructor photo in server here
-        $path = $this->uploadFile(
-            request: $request,
-            key: 'avatar',
-            folder: 'instructor/' . $request->email
-        );
+            //create new instructor in global database
+            $student = Instructor::create(
+                [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'image_path' => $path,
+                    'profession_id' => $request->profession,
+                    'password' => encryptPassword(
+                        password: $request->password
+                    )
+                ]
+            );
 
-        //create new instructor in global database
-        $student = Instructor::create(
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'image_path' => $path,
-                'profession_id' => $request->profession,
-                'password' => encryptPassword(
-                    password: $request->password
-                )
-            ]
-        );
-
-        //redirct for login page
-        return redirect()->route('instructor.login');
+            //redirct for login page
+            return redirect()->route('instructor.login');
+        } //end try
+        catch (Exception $ex) {
+            return abort(400);
+        } //end catch
     } //end store
 
 

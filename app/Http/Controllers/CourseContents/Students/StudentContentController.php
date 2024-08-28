@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\CourseContents\Students;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buying;
 use App\Models\Content;
 use App\Models\React;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
 
 class StudentContentController extends Controller
 {
@@ -16,7 +18,7 @@ class StudentContentController extends Controller
     //function for return video watch view
     public function index($id)
     {
-        try {
+ 
             //get content by id
             $content = Content::withCount('reacts')->findOrFail($id);
 
@@ -26,6 +28,18 @@ class StudentContentController extends Controller
 
             //get auth user
             $uathUser = Auth::guard(getStudentGaurd())->user();
+
+            $isBuying = Buying::where('course_id', $content->course_id)
+                ->where('student_id', $uathUser->id)
+                ->exists();
+
+            //if not student buying this course
+            if (!$isBuying) {
+                return makePaymentSession(
+                    course: $content->course,
+                    contentid: $content->id
+                );
+            } //end if
 
             //check auth user is saved course or no
             $isUserReact = React::where('content_id', $id)
@@ -46,10 +60,7 @@ class StudentContentController extends Controller
                 ->with('isUserReacted', $isUserReact)
                 ->with('comments', $comments)
                 ->with('isAssigmentAvialable', $isAssigmentAvialable);
-        } //end try
-        catch (Exception $ex) {
-            return abort(500);
-        } //end catch
+
     } //end index
 
 }//end StudentContentController

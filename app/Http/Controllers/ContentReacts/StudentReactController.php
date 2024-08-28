@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ContentReacts;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buying;
 use App\Models\Content;
 use App\Models\React;
 use Exception;
@@ -48,6 +49,18 @@ class StudentReactController extends Controller
 
             //get content by id
             $content = Content::findOrFail($id);
+
+            $isBuying = Buying::where('course_id', $content->course_id)
+                ->where('student_id', $authUser->id)
+                ->exists();
+
+            //if not student buying this course
+            if (!$isBuying) {
+                return makePaymentSession(
+                    course: $content->course,
+                    contentid: $content->id
+                );
+            } //end if
 
             $isReacted = React::where('student_id', $authUser->id)
                 ->where('content_id', $content->id)

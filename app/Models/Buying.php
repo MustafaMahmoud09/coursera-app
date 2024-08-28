@@ -12,7 +12,8 @@ class Buying extends Model
 
     protected $fillable = [
         'course_id',
-        'student_id'
+        'student_id',
+        'course_price'
     ];
-    
+
 }

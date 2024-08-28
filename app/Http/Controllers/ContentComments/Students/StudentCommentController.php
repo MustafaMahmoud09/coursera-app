@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ContentComments\Students;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseContentComments\AddCommentRequest;
 use App\Http\Requests\CourseContentComments\UpdateCommentRequest;
+use App\Models\Buying;
 use App\Models\Comment;
 use App\Models\Content;
 use Exception;
@@ -50,6 +51,18 @@ class StudentCommentController extends Controller
 
             //get course content by id
             $content = Content::findOrFail($id);
+
+            $isBuying = Buying::where('course_id', $content->course_id)
+                ->where('student_id', $userAuth->id)
+                ->exists();
+
+            //if not student buying this course
+            if (!$isBuying) {
+                return makePaymentSession(
+                    course: $content->course,
+                    contentid: $content->id
+                );
+            } //end if
 
             //create new comment on course video
             Comment::create(
