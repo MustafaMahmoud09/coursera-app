@@ -110,7 +110,7 @@
                     </a>
                 @endforeach
             @else
-                <p class="empty">no contents added yet!</p>
+                <p class="empty">no videos added yet!</p>
             @endif
 
         </div>
@@ -128,7 +128,7 @@
                     </a>
                 @endforeach
             @else
-                <p class="empty">no contents added yet!</p>
+                <p class="empty">no lessons added yet!</p>
             @endif
         </div>
 
@@ -145,7 +145,7 @@
                     </a>
                 @endforeach
             @else
-                <p class="empty">no contents added yet!</p>
+                <p class="empty">no assignments added yet!</p>
             @endif
         </div>
 

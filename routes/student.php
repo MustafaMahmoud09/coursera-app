@@ -103,6 +103,11 @@ try {
                 Route::get('solution/add/{id}/view', 'index')->name('student.solution.add.view');
                 Route::post('solution/add/{id}', 'store')->name('student.solution.add');
             });
+
+            //courses buying links
+            Route::controller(StudentBuyingCourseController::class)->group(function () {
+                Route::get('playlists/buyings/view', 'index')->name('student.playlists.buyings.view');
+            });
         } //end fun
     );
 } //end try

@@ -41,6 +41,18 @@
                     <div class="flex">
                         <i class="fas fa-bookmark"></i>
                         <div>
+                            <h3>{{ $coursesBuyingsCount }}</h3>
+                            <span>purchased courses/span>
+                        </div>
+                    </div>
+                    <a href="{{ route('student.playlists.buyings.view') }}" class="inline-btn">view your courses</a>
+                </div>
+
+
+                <div class="box">
+                    <div class="flex">
+                        <i class="fas fa-bookmark"></i>
+                        <div>
                             <h3>{{ $courseSaveCounts }}</h3>
                             <span>saved playlists</span>
                         </div>

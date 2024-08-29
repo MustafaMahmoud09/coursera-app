@@ -126,44 +126,10 @@
             lesson.style.display = 'none';
         }
     });
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    }, false);
+
+    document.getElementById('video').setAttribute('controlsList', 'nodownload');
 </script>
-
-<!-- JavaScript -->
-<!--<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentUrl = location.href;
-
-        // تحديث الحالة الحالية أو استبدالها إذا كانت موجودة من قبل
-        if (window.history.state === null || window.history.state.url !== currentUrl) {
-            window.history.replaceState({
-                url: currentUrl
-            }, document.title, currentUrl);
-        }
-
-        // التعامل مع الرجوع للصفحة السابقة
-        window.onpopstate = function(event) {
-            if (event.state && event.state.url === currentUrl) {
-                window.history.go(-1);
-            }
-        };
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentUrl = location.href;
-
-        // تحديث الحالة الحالية في الـ history stack
-        history.replaceState({
-            page: currentUrl
-        }, document.title, currentUrl);
-
-        // التعامل مع الرجوع للصفحة السابقة
-        window.onpopstate = function(event) {
-            if (event.state && event.state.page === currentUrl) {
-                // إذا كانت الصفحة الحالية موجودة في الـ back stack، قم بحذفها
-                history.go(-1);
-            }
-        };
-    });
-</script>-->

@@ -41,6 +41,10 @@
                             {{ $commentCounts }}
                         </span></p>
                     <a href="{{ route('student.playlist.comments.view') }}" class="inline-btn">view comments</a>
+                    <p>purchased courses : <span>
+                            {{ $coursesBuyingsCount }}
+                        </span></p>
+                    <a href="{{ route('student.playlists.buyings.view') }}" class="inline-btn">view your courses</a>
                     <p>saved playlist : <span>
                             {{ $courseSaveCounts }}
                         </span></p>

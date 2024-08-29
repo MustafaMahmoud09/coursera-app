@@ -209,7 +209,6 @@ if (! function_exists('makePaymentSession')) {
             ],
             'customer' => $user->stripe_account_id,
             'success_url' => route('student.playlist.content', $contentid),
-            'cancel_url' => route('student.playlist.comments.view'),
         ]);
 
         // إعادة توجيه المستخدم إلى رابط الجلسة

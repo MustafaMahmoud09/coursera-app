@@ -42,7 +42,7 @@
 
         <div class="video-details">
             @if ($content->content_type_id == '1')
-                <video src="{{ asset('storage/' . $content->video_path) }}" autoplay controls
+                <video src="{{ asset('storage/' . $content->video_path) }}" id='video' autoplay controls
                     poster="{{ asset('storage/' . $content->cover_path) }}" class="video"></video>
             @elseif ($content->content_type_id == '2' || $content->content_type_id == '3')
                 <div class="image-container">
@@ -58,7 +58,8 @@
                 <p><i class="fas fa-calendar"></i><span>{{ formatDate($content->created_at) }}</span></p>
                 <p><i class="fas fa-heart"></i><span>{{ $content->reacts_count }} likes</span></p>
                 @if ($isAssigmentAvialable)
-                    <a href="{{ route('student.solution.add.view', $content->id) }}" class="btn">Submit Assignment</a>
+                    <a href="{{ route('student.solution.add.view', $content->id) }}" class="btn">Submit
+                        Assignment</a>
                 @endif
             </div>
             <div class="tutor">

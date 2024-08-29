@@ -24,7 +24,7 @@
 
         <div class="container">
             @if ($content->content_type_id == '1')
-                <video src="{{ asset('storage/' . $content->video_path) }}" autoplay controls
+                <video src="{{ asset('storage/' . $content->video_path) }}" id='video' autoplay controls
                     poster="{{ asset('storage/' . $content->cover_path) }}" class="video"></video>
             @elseif ($content->content_type_id == '2' || $content->content_type_id == '3')
                 <div class="image-container">

@@ -31,13 +31,15 @@ class StudentProfileController extends Controller
                 $reactCounts = count($authUser->reacts);
                 $commentCounts = count($authUser->comments);
                 $courseSaveCounts = count($authUser->coursesSaved);
+                $coursesBuyingsCount = count($authUser->buyings()->distinct('course_id')->get());
             } //end if
 
             return view('welcome')
                 ->with('playlists', $courses)
                 ->with('reactCounts', $reactCounts)
                 ->with('commentCounts', $commentCounts)
-                ->with('courseSaveCounts', $courseSaveCounts);
+                ->with('courseSaveCounts', $courseSaveCounts)
+                ->with('coursesBuyingsCount', $coursesBuyingsCount);
         } //end try
         catch (Exception $ex) {
             return abort(500);
@@ -55,11 +57,13 @@ class StudentProfileController extends Controller
             $reactCounts = count($authUser->reacts);
             $commentCounts = count($authUser->comments);
             $courseSaveCounts = count($authUser->coursesSaved);
+            $coursesBuyingsCount = count($authUser->buyings()->distinct('course_id')->get());
 
             return view('students.profile')
                 ->with('reactCounts', $reactCounts)
                 ->with('commentCounts', $commentCounts)
-                ->with('courseSaveCounts', $courseSaveCounts);
+                ->with('courseSaveCounts', $courseSaveCounts)
+                ->with('coursesBuyingsCount', $coursesBuyingsCount);
         } //end try
         catch (Exception $ex) {
             return abort(500);
