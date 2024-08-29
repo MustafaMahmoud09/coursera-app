@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Profiles\Students\StudentProfileController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StudentProfileController::class, 'index'])->name('home');
+Route::prefix(LaravelLocalization::setLocale())->get('/', [StudentProfileController::class, 'index'])->name('home');

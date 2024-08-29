@@ -12,27 +12,28 @@ use App\Http\Controllers\Courses\Students\{StudentCourseController};
 use App\Http\Controllers\Profiles\Students\{StudentProfileController, StudentUpdateProfileController};
 use App\Http\Controllers\Teachers\StudentTeacherController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 try {
 
     //for student register links
-    Route::controller(StudentRegisterController::class)->group(function () {
+    Route::prefix(LaravelLocalization::setLocale())->controller(StudentRegisterController::class)->group(function () {
         Route::get('register', 'index')->name('student.register');
         Route::post('register/store', 'store')->name('student.register.store');
     });
 
 
     //for student login links
-    Route::controller(StudentLoginController::class)->group(function () {
+    Route::prefix(LaravelLocalization::setLocale())->controller(StudentLoginController::class)->group(function () {
         Route::get('login', 'index')->name('student.login');
         Route::post('login/make', 'login')->name('student.login.generate');
     });
 
     //web hook
-    Route::post('webhook', [StudentBuyingCourseController::class, 'handleWebhook']);
+    Route::prefix(LaravelLocalization::setLocale())->post('webhook', [StudentBuyingCourseController::class, 'handleWebhook']);
 
     //contacts links
-    Route::controller(StudentContactController::class)->group(function () {
+    Route::prefix(LaravelLocalization::setLocale())->controller(StudentContactController::class)->group(function () {
         Route::get('contacts/view', 'index')->name('student.contacts.view');
         Route::post('contacts/store', 'store')->name('student.contacts.store');
         Route::get('about/view', 'aboutView')->name('student.about.view');
@@ -42,6 +43,7 @@ try {
     Route::group(
         [
             'middleware' => ['custome-auth:' . getStudentGaurd()],
+            'prefix' => LaravelLocalization::setLocale()
         ],
         function () {
 

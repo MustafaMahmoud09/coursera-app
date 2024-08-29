@@ -27,6 +27,7 @@ class StudentProfileController extends Controller
             $reactCounts = 0;
             $commentCounts = 0;
             $courseSaveCounts = 0;
+            $coursesBuyingsCount = 0;
             if ($authUser) {
                 $reactCounts = count($authUser->reacts);
                 $commentCounts = count($authUser->comments);

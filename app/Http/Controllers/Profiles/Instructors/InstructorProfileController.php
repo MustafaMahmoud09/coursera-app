@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profiles\Instructors;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Instructor;
 use Exception;
 use Illuminate\Http\Request;
@@ -40,19 +41,19 @@ class InstructorProfileController extends Controller
             $comments = collect();
             $reacts = collect();
             $assignments = collect();
-
+            $purchases = collect();
             $courses = Instructor::where('id', $authUser->id)->first()->courses;
 
             foreach ($courses as $course) {
 
                 $contents = $course->contents;
+                $purchases = $purchases->merge($course->buyings()->distinct('student_id')->get());
 
                 foreach ($contents as $content) {
                     $comments = $comments->merge($content->comments);
                     $reacts = $reacts->merge($content->reacts);
                     $assignments = $assignments->merge($content->solutions);
                 }
-
             }
 
             //get react count
@@ -64,11 +65,15 @@ class InstructorProfileController extends Controller
             //get solution count
             $solutionCounts = count($assignments);
 
+            //get purchases count
+            $purchasesCount = count($purchases);
+
             return view($view)
                 ->with('instructor', $instructor)
                 ->with('commentCount', $commentCounts)
                 ->with('reactCount', $reactCounts)
-                ->with('solutionCounts', $solutionCounts);
+                ->with('solutionCounts', $solutionCounts)
+                ->with('purchasesCount', $purchasesCount);
         } //end try
         catch (Exception $ex) {
             return abort(500);

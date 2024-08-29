@@ -44,6 +44,7 @@
                     <input type="submit" value="delete playlist" class="delete-btn"
                         onclick="return confirm('delete this playlist?');" name="delete">
                 </form>
+                <a href="{{ route('instructor.course.students.view', $playlist->id) }}" class="option-btn">view students</a>
             </div>
         </div>
 
@@ -76,11 +77,13 @@
                             class="flex-btn">
                             @csrf
                             @method('delete')
-                            <a href="{{ route('instructor.edit.playlist.content', $content->id) }}" class="option-btn">update</a>
+                            <a href="{{ route('instructor.edit.playlist.content', $content->id) }}"
+                                class="option-btn">update</a>
                             <input type="submit" value="delete" class="delete-btn"
                                 onclick="return confirm('delete this video?');" name="delete_video">
                         </form>
-                        <a href="{{ route('instructor.playlist.content.details.view', $content->id) }}" class="btn">watch {{ $content->type->type }}</a>
+                        <a href="{{ route('instructor.playlist.content.details.view', $content->id) }}"
+                            class="btn">watch {{ $content->type->type }}</a>
                     </div>
                 @endforeach
             @else

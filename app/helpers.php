@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Content;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Stripe\Checkout\Session;
@@ -214,5 +215,49 @@ if (! function_exists('makePaymentSession')) {
         // إعادة توجيه المستخدم إلى رابط الجلسة
         return redirect($session->url);
     } //end makePaymentSession
+
+}//end if
+
+
+//function for provide react count for teacher
+if (! function_exists('studentCommentCount')) {
+
+    function studentCommentCount($student)
+    {
+        //get auth user
+        $authUser = Auth::guard(getInstructorGuard())->user();
+
+        //auth user course
+        $courses = $authUser->courses()->pluck('id');
+
+        //get course contents
+        $contents = Content::whereIn('course_id', $courses)->pluck('id');
+
+        //get comments count
+        return count($student->comments()->whereIn('content_id', $contents)->get());
+
+    }//end studentCommentCount
+
+}//end if
+
+
+//function for provide react count for teacher
+if (! function_exists('studentReactCount')) {
+
+    function studentReactCount($student)
+    {
+        //get auth user
+        $authUser = Auth::guard(getInstructorGuard())->user();
+
+        //auth user course
+        $courses = $authUser->courses()->pluck('id');
+
+        //get course contents
+        $contents = Content::whereIn('course_id', $courses)->pluck('id');
+
+        //get comments count
+        return count($student->reacts()->whereIn('content_id', $contents)->get());
+
+    }//end studentCommentCount
 
 }//end if

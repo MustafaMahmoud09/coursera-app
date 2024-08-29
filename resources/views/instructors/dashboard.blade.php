@@ -46,6 +46,12 @@
             </div>
 
             <div class="box">
+                <h3>{{ $purchasesCount }}</h3>
+                <p>total purchases</p>
+                <a href="{{ route('instructor.course.buyings.students.view') }}" class="btn">view students</a>
+            </div>
+
+            <div class="box">
                 <h3>{{ $reactCount }}</h3>
                 <p>total likes</p>
                 <a href="{{ route('instructor.playlist.contents.view') }}" class="btn">view contents</a>

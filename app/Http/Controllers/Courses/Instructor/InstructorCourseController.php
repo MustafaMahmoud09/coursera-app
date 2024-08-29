@@ -41,9 +41,12 @@ class InstructorCourseController extends Controller
 
             //search on instructor courses
             $courses = $authUser->courses()
-                ->where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('title', 'like', '%' . $request->search . '%')
+                        ->orWhere('description', 'like', '%' . $request->search . '%');
+                })
                 ->withCount('contents')
+                ->orderByDesc('created_at')
                 ->get();
 
             return view('instructors.search_page')

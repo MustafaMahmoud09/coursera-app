@@ -3,22 +3,24 @@
 use App\Http\Controllers\Auth\Instructors\{InstructorLoginController, InstructorLogoutController, InstructorRegisterController};
 use App\Http\Controllers\ContentComments\Instructors\InstructorCommentController;
 use App\Http\Controllers\ContentSolutions\Instructors\InstructorSolutionController;
+use App\Http\Controllers\CourseBuyings\InstructorBuyingCourseController;
 use App\Http\Controllers\CourseContents\Instructors\{InstructorAddContentController, InstructorContentController, InstructorDeleteContentController, InstructorUpdateContentController};
 use App\Http\Controllers\Courses\Instructor\{InstructorAddCourseController, InstructorCourseController, InstructorDeleteCourseController, InstructorUpdateCourseController};
 use App\Http\Controllers\Profiles\Instructors\{InstructorProfileController, InstructorUpdateProfileController};
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 try {
 
     //for instructor register links
-    Route::controller(InstructorRegisterController::class)->group(function () {
+    Route::prefix(LaravelLocalization::setLocale())->controller(InstructorRegisterController::class)->group(function () {
         Route::get('register', 'index')->name('instructor.register');
         Route::post('register/store', 'store')->name('instructor.register.store');
     });
 
 
     //for instructor login links
-    Route::controller(InstructorLoginController::class)->group(function () {
+    Route::prefix(LaravelLocalization::setLocale())->controller(InstructorLoginController::class)->group(function () {
         Route::get('login', 'index')->name('instructor.login');
         Route::post('login/make', 'login')->name('instructor.login.generate');
     });
@@ -28,6 +30,7 @@ try {
     Route::group(
         [
             'middleware' => ['custome-auth:' . getInstructorGuard()],
+            'prefix' => LaravelLocalization::setLocale()
         ],
         function () {
 
@@ -98,6 +101,14 @@ try {
             Route::controller(InstructorSolutionController::class)->group(function (){
                 Route::get('playlist/content/assigments/view', 'index')->name('instructor.playlist.content.assigments.view');
                 Route::get('playlist/content/{id}/solutions','contentSolutionsView')->name('instructor.playlist.content.solutions');
+            });
+
+
+            //course buyings links
+            Route::controller(InstructorBuyingCourseController::class)->group(function (){
+                Route::get('course/buyings/students/view', 'index')->name('instructor.course.buyings.students.view');
+                Route::get('course/buyings/student/{id}','purchasesCourseView')->name('instructor.course.buyings.student.edit');
+                Route::get('course/students/{id}','courseStudents')->name('instructor.course.students.view');
             });
         } //end fun
     );

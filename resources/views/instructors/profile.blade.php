@@ -39,8 +39,13 @@
                 </div>
                 <div class="box">
                     <span>{{ $instructor->contents_count }}</span>
-                    <p>total videos</p>
+                    <p>total contents</p>
                     <a href="{{ route('instructor.playlist.contents.view') }}" class="btn">view contents</a>
+                </div>
+                <div class="box">
+                    <span>{{ $purchasesCount }}</span>
+                    <p>total purchases</p>
+                    <a href="{{ route('instructor.course.buyings.students.view') }}" class="btn">view students</a>
                 </div>
                 <div class="box">
                     <span>{{ $reactCount }}</span>
@@ -51,6 +56,11 @@
                     <span>{{ $commentCount }}</span>
                     <p>total comments</p>
                     <a href="{{ route('instructor.playlist.content.comments.view') }}" class="btn">view comments</a>
+                </div>
+                <div class="box">
+                    <span>{{ $solutionCounts }}</span>
+                    <p>total assignments</p>
+                    <a href="{{ route('instructor.playlist.content.assigments.view') }}" class="btn">view assignments</a>
                 </div>
             </div>
         </div>

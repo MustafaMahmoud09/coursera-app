@@ -18,7 +18,7 @@ class StudentContentController extends Controller
     //function for return video watch view
     public function index($id)
     {
- 
+        try {
             //get content by id
             $content = Content::withCount('reacts')->findOrFail($id);
 
@@ -60,7 +60,10 @@ class StudentContentController extends Controller
                 ->with('isUserReacted', $isUserReact)
                 ->with('comments', $comments)
                 ->with('isAssigmentAvialable', $isAssigmentAvialable);
-
+        } //end try
+        catch (Exception $ex) {
+            return abort(500);
+        } //end catch
     } //end index
 
 }//end StudentContentController

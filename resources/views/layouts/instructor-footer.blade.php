@@ -126,7 +126,9 @@
             lesson.style.display = 'none';
         }
     });
+</script>
 
+<script>
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
     }, false);
