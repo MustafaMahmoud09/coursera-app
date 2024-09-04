@@ -37,7 +37,7 @@ class StudentCourseSaveController extends Controller
 
 
     //function for save course by student
-    public function store($id)
+    public function store(Request $request, $id)
     {
         try {
             //get auth user
@@ -49,7 +49,7 @@ class StudentCourseSaveController extends Controller
             $isSaved = CourseSave::where('student_id', $authUser->id)
                 ->where('course_id', $course->id)
                 ->exists();
-            if (!$isSaved) {
+            if (!$isSaved && $request->type == '0') {
 
                 //create new react on video here
                 CourseSave::create(
@@ -58,25 +58,16 @@ class StudentCourseSaveController extends Controller
                         'course_id' => $id
                     ]
                 );
-
-                return back()->withErrors(
-                    [
-                        'error' => 'course saved!'
-                    ]
-                );
             } //end if
-            else {
+            else if ($isSaved && $request->type == '1') {
                 //delete react if exist
                 CourseSave::where('student_id', $authUser->id)
                     ->where('course_id', $course->id)
                     ->delete();
-
-                return back()->withErrors(
-                    [
-                        'error' => 'course save deleted!'
-                    ]
-                );
             } //end else
+
+            return view('layouts.book-mark')
+                ->with('isUserSaved', $request->type == '0');
         } //end try
         catch (Exception $ex) {
             return abort(500);

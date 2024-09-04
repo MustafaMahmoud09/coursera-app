@@ -30,15 +30,8 @@
         <div class="row">
 
             <div class="col">
-                <form action="{{ route('student.playlist.save.store', $course->id) }}" method="post" class="save-list">
-                    @csrf
-                    @if ($isUserSaved)
-                        <button type="submit" name="save_list"><i
-                                class="fas fa-bookmark"></i><span>saved</span></button>
-                    @else
-                        <button type="submit" name="save_list"><i class="far fa-bookmark"></i><span>save
-                                playlist</span></button>
-                    @endif
+                <form id='bookmark-container'class="save-list">
+                    @include('layouts.book-mark')
                 </form>
                 <div class="thumb">
                     <span>
@@ -189,6 +182,8 @@
 
         }
     </script>
+
+    @include('ajax.add-book-mark')
 
 </body>
 

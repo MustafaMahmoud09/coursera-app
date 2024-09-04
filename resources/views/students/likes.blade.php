@@ -27,40 +27,8 @@
 
         <h1 class="heading">liked videos</h1>
 
-        <div class="box-container">
-
-            @if (count($reacts) != 0)
-                @foreach ($reacts as $react)
-                    <div class="box">
-                        <div class="tutor">
-                            <img src="{{ asset('storage/' . $react->content->instructor->image_path) }}" alt="not found">
-                            <div>
-                                <h3>{{ $react->content->instructor->name }}</h3>
-                                <span>{{ formatDate($react->content->created_at) }}</span>
-                            </div>
-                        </div>
-                        <img src="{{ asset('storage/' . $react->content->cover_path) }}" alt="not found" class="thumb">
-                        <h3 class="title">{{ $react->content->title }}</h3>
-                        <form action="{{ route('student.content.like.delete', $react->id) }}" method="post"
-                            class="flex-btn">
-                            @csrf
-                            @method('delete')
-                            <a href="{{ route('student.playlist.content', $react->content->id) }}"
-                                class="inline-btn">watch
-                                video</a>
-                            <input type="submit" value="remove" class="inline-delete-btn" name="remove">
-                        </form>
-                    </div>
-                @endforeach
-            @else
-                <p class="empty">nothing added to likes yet!</p>
-            @endif
-
-            <!--     <p class="emtpy">content was not found!</p>    -->
-
-            <!--<p class="empty">nothing added to likes yet!</p> -->
-
-
+        <div class="box-container" id='react_container'>
+            @include('layouts.auth-reacts')
         </div>
 
     </section>

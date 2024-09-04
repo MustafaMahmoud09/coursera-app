@@ -23,7 +23,7 @@
                 success: function(response) {
 
                     $('#comments-container').html(response);
-                    alert('Comment added successfully!');
+                    //alert('Comment added successfully!');
 
                 },
                 error: function(xhr, status, error) {

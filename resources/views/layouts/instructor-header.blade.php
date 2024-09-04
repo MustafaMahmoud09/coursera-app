@@ -9,7 +9,7 @@
         <form action="{{ route('instructor.playlist.search') }}" method="get" class="search-form">
             @csrf
             <input type="text" name="search" placeholder="search here..." required maxlength="100">
-            <button type="submit" class="fas fa-search" ></button>
+            <button type="submit" class="fas fa-search"></button>
         </form>
 
         <div class="icons">

@@ -24,7 +24,7 @@
             success: function(response) {
                 // Update the comments section or handle response here
                 $('#comments-container').html(response);
-                alert('Comment updated successfully!');
+               //alert('Comment updated successfully!');
             },
             error: function(xhr) {
                 console.error('Failed to update comment:', xhr);

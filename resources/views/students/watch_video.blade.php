@@ -55,7 +55,7 @@
             </h3>
             <div class="info">
                 <p><i class="fas fa-calendar"></i><span>{{ formatDate($content->created_at) }}</span></p>
-                <p><i class="fas fa-heart"></i><span>{{ $content->reacts_count }} likes</span></p>
+                <p><i class="fas fa-heart"></i><span id='react_count_id'>{{ $content->reacts_count }}</span><span> likes</span></p>
                 @if ($isAssigmentAvialable)
                     <a href="{{ route('student.solution.add.view', $content->id) }}" class="btn">Submit
                         Assignment</a>
@@ -68,18 +68,8 @@
                     <span>{{ $content->instructor->profession->profession }}</span>
                 </div>
             </div>
-            <form action="{{ route('student.content.react.store', $content->id) }}" method="post" class="flex">
-                @csrf
-                <a href="{{ route('student.playlist', $content->course->id) }}" class="inline-btn">view playlist</a>
-
-                @if ($isUserReacted)
-                    <!--show this button if user liked video before-->
-                    <button type="submit" name=""><i class="fas fa-heart"></i><span>liked</span></button>
-                @else
-                    <!--show this button if user not liked video before-->
-                    <button type="submit" name="like_content"><i class="far fa-heart"></i><span>like</span></button>
-                @endif
-
+            <form class="flex" id='react_container'>
+                @include('layouts.content-react')
             </form>
             <div class="description">
                 <p>
@@ -117,6 +107,7 @@
     @include('layouts.student-footer')
     @include('ajax.add-comment')
     @include('ajax.update-comment')
+    @include('ajax.add-react')
 
 </body>
 

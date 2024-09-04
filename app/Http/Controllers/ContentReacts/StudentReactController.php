@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Buying;
 use App\Models\Content;
 use App\Models\React;
+use App\Traits\Controllers\Response\SelectResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentReactController extends Controller
 {
+    use SelectResponse;
 
     //function for return likes view
     public function index()
@@ -41,7 +43,7 @@ class StudentReactController extends Controller
 
 
     //function for store new react on content
-    public function store($id)
+    public function store(Request $request, $id)
     {
         try {
             //get auth user
@@ -65,8 +67,7 @@ class StudentReactController extends Controller
             $isReacted = React::where('student_id', $authUser->id)
                 ->where('content_id', $content->id)
                 ->exists();
-            if (!$isReacted) {
-
+            if (!$isReacted && $request->type == '0') {
                 //create new react on video here
                 React::create(
                     [
@@ -74,25 +75,26 @@ class StudentReactController extends Controller
                         'content_id' => $id
                     ]
                 );
-
-                return back()->withErrors(
-                    [
-                        'error' => 'react created!'
-                    ]
-                );
             } //end if
-            else {
+            else if ($isReacted && $request->type == '1') {
                 //delete react if exist
                 React::where('student_id', $authUser->id)
                     ->where('content_id', $content->id)
                     ->delete();
-
-                return back()->withErrors(
-                    [
-                        'error' => 'react deleted!'
-                    ]
-                );
             } //end else
+
+            $reactCount = count($content->reacts);
+
+            return $this->SelectResponse(
+                data: [
+                    'view' => view('layouts.content-react')
+                        ->with('isUserReacted', $request->type == '0')
+                        ->with('content', $content)
+                        ->render(),
+                    'reactCount' => $reactCount
+                ],
+                type: 'react'
+            );
         } //end try
         catch (Exception $ex) {
             return abort(500);
@@ -101,7 +103,7 @@ class StudentReactController extends Controller
 
 
     //function for delete react
-    public function delete($id)
+    public function delete(Request $request,$id)
     {
         try {
             //get auth user
@@ -116,11 +118,19 @@ class StudentReactController extends Controller
             //delete react here
             $react->delete();
 
-            return back()->withErrors(
-                [
-                    'error' => 'react deleted!'
-                ]
-            );
+            //get student auth reacts
+            $reacts = $authUser->reacts()
+                ->whereHas('content', function ($query) {
+                    $query->where('status', 1)
+                        ->whereHas('course', function ($subQuery) {
+                            $subQuery->where('status', 1);
+                        });
+                })
+                ->orderByDesc('created_at')
+                ->get();
+
+            return view('layouts.auth-reacts')
+                ->with('reacts', $reacts);
         } //end try
         catch (Exception $ex) {
             return abort(500);
