@@ -88,6 +88,11 @@ class InstructorBuyingCourseController extends Controller
 
             //get all courses buyings
             $buyings = Buying::whereIn('student_id', $students)
+                ->whereHas('course', function ($query) {
+                    //get auth user
+                    $authUser = Auth::guard(getInstructorGuard())->user();
+                    $query->where('instructor_id', $authUser->id);
+                })
                 ->selectRaw('student_id,COUNT(*) as total_purchases, SUM(course_price) as total_amount')
                 ->groupBy('student_id')
                 ->orderByDesc('total_amount')
