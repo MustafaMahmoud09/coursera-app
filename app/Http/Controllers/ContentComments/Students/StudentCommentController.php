@@ -8,12 +8,14 @@ use App\Http\Requests\CourseContentComments\UpdateCommentRequest;
 use App\Models\Buying;
 use App\Models\Comment;
 use App\Models\Content;
+use App\Traits\Controllers\Response\SelectResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentCommentController extends Controller
 {
+    use SelectResponse;
 
     //function for return comment view
     public function index()
@@ -73,12 +75,14 @@ class StudentCommentController extends Controller
                 ]
             );
 
-            //back for last route with this message
-            return back()->withErrors(
-                [
-                    'success' => 'new comment created!'
-                ]
-            );
+            //get content comments
+            $comments = Content::find($id)
+                ->comments()
+                ->orderByDesc('created_at')
+                ->get();
+
+            return view('layouts.content-comments')
+                ->with('comments', $comments);
         } //end try
         catch (Exception $ex) {
             return abort(500);
@@ -87,7 +91,7 @@ class StudentCommentController extends Controller
 
 
     //function for delete course comment
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         try {
             //get auth user
@@ -103,11 +107,8 @@ class StudentCommentController extends Controller
             //delete comment here
             $comment->delete();
 
-            return back()->withErrors(
-                [
-                    'error' => 'comment deleted!'
-                ]
-            );
+            //get content comments
+            return $this->provideCommentsWithView($request->type, $comment->content_id);
         } //end try
         catch (Exception $ex) {
             return abort(500);
@@ -133,15 +134,45 @@ class StudentCommentController extends Controller
             $comment->comment = $request->comment;
             $comment->save();
 
-            return back()->withErrors(
-                [
-                    'error' => 'comment updated!'
-                ]
-            );
+            return $this->provideCommentsWithView($request->type, $comment->content_id);
         } //end try
         catch (Exception $ex) {
             return abort(500);
         } //end catch
     } //end update
+
+
+    private function provideCommentsWithView($type, $contentId = null)
+    {
+        if ($type == 0) {
+            //get content comments
+            $comments = Content::find($contentId)
+                ->comments()
+                ->orderByDesc('created_at')
+                ->get();
+
+            return view('layouts.content-comments')
+                ->with('comments', $comments);
+        } //end if
+        else {
+            //get student auth
+            $authUser = Auth::guard(getStudentGaurd())->user();
+
+            //get student auth comments
+            $comments = $authUser->comments()
+                ->whereHas('content', function ($query) {
+                    $query->where('status', 1)
+                        ->whereHas('course', function ($subQuery) {
+                            $subQuery->where('status', 1);
+                        });
+                })
+                ->orderByDesc('created_at')
+                ->get();
+
+            return view('layouts.auth-comments')
+                ->with('comments', $comments);
+        } //end else
+
+    } //end provideCommentsWithView
 
 }//end StudentCommentController

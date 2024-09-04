@@ -261,3 +261,21 @@ if (! function_exists('studentReactCount')) {
     }//end studentCommentCount
 
 }//end if
+
+
+if (!function_exists('responseFormat')) {
+    function responseFormat($data = [],   $message,   $status,   $headers = [])
+    {
+        $response = [
+            "data" => $data,
+            "message" => $message,
+            "status" => $status
+        ];
+
+        return response()->json(
+            $response,
+            $status,
+            $headers
+        );
+    }
+}

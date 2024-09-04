@@ -15,3 +15,13 @@
 
     document.getElementById('video').setAttribute('controlsList', 'nodownload');
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    document.getElementById('cancel_button').addEventListener('click', function() {
+        var edit = document.getElementById('edit');
+        edit.style.display = 'none';
+    });
+</script>
