@@ -18,7 +18,7 @@ class InstructorLoginController extends Controller
             return view('instructors.login');
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end index
 
@@ -26,12 +26,13 @@ class InstructorLoginController extends Controller
     //function for login for instructor
     public function login(LoginRequest $request)
     {
+        //validate on student info exist in request or no
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
         try {
-            //validate on student info exist in request or no
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
 
             //
             if (Auth::guard(getInstructorGuard())->attempt($credentials)) {
@@ -45,7 +46,7 @@ class InstructorLoginController extends Controller
             ]);
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end login
 

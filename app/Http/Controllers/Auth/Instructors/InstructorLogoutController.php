@@ -19,7 +19,7 @@ class InstructorLogoutController extends Controller
             return redirect()->route('home');
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end logout
 

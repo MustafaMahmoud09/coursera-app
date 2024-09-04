@@ -21,7 +21,7 @@ class StudentRegisterController extends Controller
             return view("students.register");
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end index
 
@@ -29,13 +29,13 @@ class StudentRegisterController extends Controller
     //function for create new student in global db
     public function store(RegisterRequest $request)
     {
-        try {
-            $request->validate(
-                [
-                    'email' => 'unique:students,email'
-                ]
-            );
+        $request->validate(
+            [
+                'email' => 'unique:students,email'
+            ]
+        );
 
+        try {
             //upload student photo in server here
             $path = $this->uploadFile(
                 request: $request,
@@ -59,7 +59,7 @@ class StudentRegisterController extends Controller
             return redirect()->route('student.login');
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end store
 

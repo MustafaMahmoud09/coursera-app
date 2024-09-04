@@ -25,7 +25,7 @@ class InstructorRegisterController extends Controller
             return view('instructors.register')->with('professions', $professions);
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end index
 
@@ -33,13 +33,14 @@ class InstructorRegisterController extends Controller
     //function for create new instructor in global db
     public function store(RegisterRequest $request)
     {
+        $request->validate(
+            [
+                'profession' => 'required|numeric|exists:professions,id',
+                'email' => 'unique:instructors,email'
+            ]
+        );
+        
         try {
-            $request->validate(
-                [
-                    'profession' => 'required|numeric|exists:professions,id',
-                    'email' => 'unique:instructors,email'
-                ]
-            );
 
             //upload instructor photo in server here
             $path = $this->uploadFile(
@@ -65,7 +66,7 @@ class InstructorRegisterController extends Controller
             return redirect()->route('instructor.login');
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end store
 

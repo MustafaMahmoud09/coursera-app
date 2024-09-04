@@ -18,7 +18,7 @@ class StudentLoginController extends Controller
             return view('students.login');
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end index
 
@@ -26,13 +26,13 @@ class StudentLoginController extends Controller
     //function for login for student
     public function login(LoginRequest $request)
     {
-        try {
-            //validate on student info exist in request or no
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
+        //validate on student info exist in request or no
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
+        try {
             //
             if (Auth::guard(getStudentGaurd())->attempt($credentials)) {
                 //generate session for store student info
@@ -45,7 +45,7 @@ class StudentLoginController extends Controller
             ]);
         } //end try
         catch (Exception $ex) {
-            return abort(400);
+            return abort(500);
         } //end catch
     } //end login
 
