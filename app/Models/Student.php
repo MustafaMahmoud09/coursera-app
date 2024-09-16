@@ -14,6 +14,9 @@ class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, StudentRelationship;
 
+
+    protected $keyType = 'string';
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -45,4 +48,15 @@ class Student extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // توليد UUID عند إنشاء نموذج جديد
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 }

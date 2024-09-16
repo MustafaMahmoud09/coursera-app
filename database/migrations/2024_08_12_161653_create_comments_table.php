@@ -14,14 +14,18 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text('comment');
-            $table->foreignId('content_id')
-                ->constrained()
+            $table->string('content_id', 36);
+            $table->foreign('content_id')
+                ->references('id')
+                ->on(table: 'contents')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('student_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            $table->string('student_id', 36);
+            $table->foreign('student_id')
+                ->references('id')
+                ->on(table: 'students')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

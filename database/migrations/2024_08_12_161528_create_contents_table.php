@@ -12,18 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contents', function (Blueprint $table) {
-            $table->id();
+            $table->string('id', 36)->unique()->primary();
             $table->string('title');
             $table->text('description');
             $table->string('cover_path');
             $table->string('video_path');
             $table->boolean('status');
-            $table->foreignId('course_id')
-                ->constrained()
+            $table->string('course_id', 36);
+            $table->foreign('course_id')
+                ->references('id')
+                ->on(table: 'courses')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('instructor_id')
-                ->constrained()
+            $table->string('instructor_id', 36);
+            $table->foreign('instructor_id')
+                ->references('id')
+                ->on(table: 'instructors')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->foreignId('content_type_id')

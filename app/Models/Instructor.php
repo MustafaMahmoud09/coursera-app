@@ -13,6 +13,9 @@ class Instructor extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, InstructorRelationship;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -44,4 +47,17 @@ class Instructor extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // توليد UUID عند إنشاء نموذج جديد
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
+    
 }//end Instructor

@@ -12,15 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('solutions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('content_id')
-                ->constrained()
+            $table->string(column: 'id', length: 36)->unique()->primary();
+            $table->string('content_id', 36);
+            $table->foreign('content_id')
+                ->references('id')
+                ->on(table: 'contents')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('student_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            $table->string('student_id', 36);
+            $table->foreign('student_id')
+                ->references('id')
+                ->on(table: 'students')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->string('file_path');
             $table->timestamps();
         });

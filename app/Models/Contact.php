@@ -9,6 +9,9 @@ class Contact extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'name',
         'email',
@@ -16,4 +19,16 @@ class Contact extends Model
         'message',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // توليد UUID عند إنشاء نموذج جديد
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
+    
 }//end Contact

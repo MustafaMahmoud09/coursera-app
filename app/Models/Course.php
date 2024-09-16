@@ -10,6 +10,9 @@ class Course extends Model
 {
     use HasFactory, CourseRelationship;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'title',
         'description',
@@ -18,4 +21,17 @@ class Course extends Model
         'instructor_id',
         'course_price'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // توليد UUID عند إنشاء نموذج جديد
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
+    
 }

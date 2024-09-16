@@ -12,15 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('course_saves', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('course_id')
-                ->constrained()
+            $table->string('id', 36)->unique()->primary();
+            $table->string('course_id', 36);
+            $table->foreign('course_id')
+                ->references('id')
+                ->on(table: 'courses')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('student_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            $table->string('student_id', 36);
+            $table->foreign('student_id')
+                ->references('id')
+                ->on(table: 'students')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
